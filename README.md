@@ -9,7 +9,7 @@ Node.js (you should install from https://nodejs.org)
 
 In the project directory, you can run:
 
-## 'npm i' 
+### `npm i`
 
 ### `npm start`
 
