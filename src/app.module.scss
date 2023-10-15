@@ -1,0 +1,34 @@
+.sidebar{
+  position: absolute;
+  background: #E6E6E6;;
+  width: 156px;
+  height: 100%;
+
+  &_menu{
+    display: flex;
+    flex-direction: column;
+    padding: 40px 0 ;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+    list-style-type: none;
+
+
+    &_item{
+      width: 91px;
+      height: 91px;
+      background: #72FF01;
+      border-radius: 20%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s all;
+      &:hover{
+        background: #4E30DD;
+      }
+    }
+  }
+  &_logo{
+    margin-bottom: 50%;
+  }
+}

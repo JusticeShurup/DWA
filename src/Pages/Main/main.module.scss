@@ -1,0 +1,145 @@
+.items{
+  padding: 53px 0 0 calc(156px + 93px);
+  display: flex;
+  justify-content: space-between;
+}
+.search{
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  width: 500px;
+  margin-top: 12px;
+  gap: 12px;
+  &_item{
+    width: 30%;
+    border: 1px solid #4E30DD;
+    border-radius:10px ;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s all;
+    cursor: pointer;
+    &:hover{
+      background: #4E30DD;
+      color: white;
+    }
+  }
+  &_more{
+    margin-top: 22px;
+    width: 475px;
+    height: 48px;
+    background: white;
+    border: 1px solid #4E30DD;
+    border-radius: 10px;
+    transition: 0.3s all;
+    cursor: pointer;
+    &:hover{
+      background: #4E30DD;
+      color: white;
+    }
+  }
+}
+.title{
+  font-size: 35px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: #1A1A1A;
+}
+.line{
+  width: 475px;
+  margin-top: 29px;
+  margin-bottom: 10px;
+}
+.products{
+
+  &_list{
+    display: flex;
+    flex-wrap: wrap;
+    width: 500px;
+    margin-top: 12px;
+    gap: 12px;
+    list-style-type: none;
+    overflow-y: scroll;
+    align-content: flex-start;
+    height:calc(100vh - 420px);
+
+    &::-webkit-scrollbar{
+      width: 10px;
+    }
+    &::-webkit-scrollbar-thumb{
+      width: 13px;
+      height: 35px;
+      background: #4E30DD;
+      border-radius: 10px;
+    }
+    &::-webkit-scrollbar-track{
+      background: #CCC;
+      border: 4px solid transparent;
+      background-clip: content-box;
+    }
+  }
+}
+.product{
+  width: 30%;
+  height: 216px;
+  background: #E6E6E6;
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  &_buttons{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 7px;
+  }
+  &_price{
+    width: 60px;
+    height: 29px;
+    border: 1px solid #4E30DD;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s all;
+    &:hover{
+      color: white;
+      border: white;
+      background: #4E30DD;
+    }
+  }
+  &_rating{
+    width: 48px;
+    height: 29px;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 5px;
+    gap: 3px;
+    align-items: center;
+    background: #4E30DD;
+    border-radius: 10px;
+    border: none;
+    position: relative;
+
+    font-size: 14px;
+    color: white;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    &_star{
+      height: 15px;
+    }
+  }
+}
+.character{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &_img{
+    height: calc(100vh - 100px);
+  }
+}
+
