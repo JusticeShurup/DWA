@@ -7,8 +7,8 @@ namespace DWAApi.Models.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(p => p.id);
-            builder.Property(p => p.id).IsRequired().ValueGeneratedOnAdd();
+            builder.HasKey(p => p.Id);
+            builder.Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
 
             builder.Property(p => p.Login).IsRequired().ValueGeneratedNever();
             builder.Property(p => p.Password).IsRequired().ValueGeneratedNever();

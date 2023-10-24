@@ -22,7 +22,10 @@ namespace DWAApi.Controllers
         {
             try
             {
+                Console.WriteLine(user.Id);
                 _userContext.Users.Add(user);
+                user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                Console.WriteLine(user.Password);
                 _userContext.SaveChanges();
             }
             catch (Exception ex)
@@ -35,16 +38,34 @@ namespace DWAApi.Controllers
         }
 
         [HttpGet]
-        public JsonResult HelloWorld()
+        [Route("TryLogin")]
+        public JsonResult TryLogin(string login, string password)
         {
-            return new JsonResult(Ok("Hello World"));
+            bool result = false;
+            try
+            {
+                User? user = _userContext.Users.FirstOrDefault(p => p.Login == login);
+
+                if (user == null)
+                {
+                    return new JsonResult(BadRequest("User isn't exists"));
+                }
+
+                string hashedPassword = user.Password;
+
+                result = BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+
+                if (result);
+                {
+                    return new JsonResult(Ok(result));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString());
+            }
+            return new JsonResult(Unauthorized(result));
         }
 
-        [HttpGet]
-        [Route("GoodByeWorld")]
-        public JsonResult GoodByeWorld()
-        {
-            return new JsonResult(Ok("Goodbye World"));
-        }
     }
 }

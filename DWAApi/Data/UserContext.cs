@@ -13,7 +13,6 @@ namespace DWAApi.Data
         public UserContext(DbContextOptions<UserContext> options) :
             base(options)
         {
-            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

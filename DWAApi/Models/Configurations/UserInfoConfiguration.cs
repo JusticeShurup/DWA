@@ -7,8 +7,8 @@ namespace DWAApi.Models.Configurations
     {
         public void Configure(EntityTypeBuilder<UserInfo> builder)
         {
-            builder.HasKey(p => p.id);
-            builder.Property(p => p.id).IsRequired().ValueGeneratedOnAdd();
+            builder.HasKey(p => p.Id);
+            builder.Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
 
             
             builder.HasOne(e => e.User)
