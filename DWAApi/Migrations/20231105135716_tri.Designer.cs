@@ -6,15 +6,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using DWAApi.Data;
 
 #nullable disable
 
 namespace DWAApi.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20231022063258_ORM-update2")]
-    partial class ORMupdate2
+    [Migration("20231105135716_tri")]
+    partial class tri
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,9 +25,9 @@ namespace DWAApi.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("WBAApi.Models.User", b =>
+            modelBuilder.Entity("DWAApi.Models.User", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
@@ -40,14 +39,14 @@ namespace DWAApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("WBAApi.Models.UserInfo", b =>
+            modelBuilder.Entity("DWAApi.Models.UserInfo", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
@@ -79,7 +78,7 @@ namespace DWAApi.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -87,18 +86,18 @@ namespace DWAApi.Migrations
                     b.ToTable("UserInfos");
                 });
 
-            modelBuilder.Entity("WBAApi.Models.UserInfo", b =>
+            modelBuilder.Entity("DWAApi.Models.UserInfo", b =>
                 {
-                    b.HasOne("WBAApi.Models.User", "User")
+                    b.HasOne("DWAApi.Models.User", "User")
                         .WithOne("UserInfo")
-                        .HasForeignKey("WBAApi.Models.UserInfo", "UserId")
+                        .HasForeignKey("DWAApi.Models.UserInfo", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WBAApi.Models.User", b =>
+            modelBuilder.Entity("DWAApi.Models.User", b =>
                 {
                     b.Navigation("UserInfo");
                 });

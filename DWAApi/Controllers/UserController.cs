@@ -1,6 +1,5 @@
 ﻿using DWAApi.Data;
 using DWAApi.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DWAApi.Controllers
@@ -22,7 +21,14 @@ namespace DWAApi.Controllers
         {
             try
             {
+                User? us = _userContext.Users.FirstOrDefault(p => p.Login == user.Login);
+                //Console.WriteLine("\nus.Login=" + us.Login+"\n");
+                if(us != null) 
+                {
+                    return new JsonResult(BadRequest("This nickname already exists. Please choose another"));
+                }
                 Console.WriteLine(user.Id);
+                
                 _userContext.Users.Add(user);
                 user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
                 Console.WriteLine(user.Password);
@@ -30,15 +36,18 @@ namespace DWAApi.Controllers
             }
             catch (Exception ex)
             {
+    
+                //if (ex.GetType() == typeof(Exce) )
                 Console.WriteLine(ex.ToString());
+               // return new JsonResult(BadRequest(ex.ToString()));
             }
-            
+
             return new JsonResult(Ok("User created"));
 
         }
 
         [HttpGet]
-        [Route("TryLogin")]
+        [Route("TryToLogin")]
         public JsonResult TryLogin(string login, string password)
         {
             bool result = false;
@@ -48,14 +57,14 @@ namespace DWAApi.Controllers
 
                 if (user == null)
                 {
-                    return new JsonResult(BadRequest("User isn't exists"));
+                    return new JsonResult(BadRequest("User doesn't exist"));
                 }
 
                 string hashedPassword = user.Password;
 
                 result = BCrypt.Net.BCrypt.Verify(password, hashedPassword);
 
-                if (result);
+                if (result)
                 {
                     return new JsonResult(Ok(result));
                 }
@@ -67,5 +76,25 @@ namespace DWAApi.Controllers
             return new JsonResult(Unauthorized(result));
         }
 
+        [HttpDelete]
+        [Route("DeleteSmth")]
+        public JsonResult Delete(Guid id)
+        {
+            try
+            {
+                User? user = _userContext.Users.FirstOrDefault(p => p.Id == id);
+                if (user == null)
+                {
+                    return new JsonResult(BadRequest("User with this id doesn't exist"));
+                }
+                _userContext.Users.Remove(user);
+                _userContext.SaveChanges();
+            }
+            catch (Exception ex) 
+            {
+               Console.Write(ex.ToString());
+            }
+            return new JsonResult(Ok("User deleted"));
+        }
     }
 }

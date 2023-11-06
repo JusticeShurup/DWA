@@ -10,7 +10,6 @@ namespace DWAApi.Models.Configurations
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
 
-            
             builder.HasOne(e => e.User)
                 .WithOne(e => e.UserInfo);
         }

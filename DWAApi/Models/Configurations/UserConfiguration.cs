@@ -9,7 +9,6 @@ namespace DWAApi.Models.Configurations
         {
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
-
             builder.Property(p => p.Login).IsRequired().ValueGeneratedNever();
             builder.Property(p => p.Password).IsRequired().ValueGeneratedNever();
 

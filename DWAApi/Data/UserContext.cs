@@ -14,11 +14,12 @@ namespace DWAApi.Data
             base(options)
         {
             Database.EnsureCreated();
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=DWA;Username=postgres;Password=super");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=DWA;Username=postgres;Password=DWA");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
