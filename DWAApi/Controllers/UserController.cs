@@ -75,14 +75,6 @@ namespace DWAApi.Controllers
             }
             return new JsonResult(Unauthorized(result));
         }
-       // [HttpGet]
-       // [Route("GetAll")]
-       // public JsonResult GetAll()
-       // {
-       //    try
-       //     {
-       //     }
-       // }
 
         [HttpDelete]
         [Route("DeleteSmth")]
@@ -132,9 +124,6 @@ namespace DWAApi.Controllers
                 Console.WriteLine(ex.ToString());
                 return new JsonResult(BadRequest("You got exception: "+ex.GetType()));
             }
-            
-
-        }
-        
+        }   
     }
 }
