@@ -65,7 +65,6 @@ namespace WBAAPI
             app.MapPost("/login", (User loginData, HttpContext httpContext) =>
             {
                 // находим пользователя 
-           
                 UserContext _userContext = httpContext.RequestServices.GetRequiredService<UserContext>();
                 
                 User? user = _userContext.Users.FirstOrDefault(p => (p.Login == loginData.Login));
@@ -115,9 +114,9 @@ namespace WBAAPI
 
         public class AuthOptions
         {
-            public const string ISSUER = "MyAuthServer";
-            public const string AUDIENCE = "MyAuthClient";
-            const string KEY = "mysupersecret_secretkey!123";
+            public const string ISSUER = "DWAServer";
+            public const string AUDIENCE = "Client";
+            const string KEY = "erJ19Ekfqj25rRfm56fjwnTHqfjnvLfk2rj6";
             public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
         }

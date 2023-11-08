@@ -75,6 +75,14 @@ namespace DWAApi.Controllers
             }
             return new JsonResult(Unauthorized(result));
         }
+       // [HttpGet]
+       // [Route("GetAll")]
+       // public JsonResult GetAll()
+       // {
+       //    try
+       //     {
+       //     }
+       // }
 
         [HttpDelete]
         [Route("DeleteSmth")]
@@ -96,10 +104,11 @@ namespace DWAApi.Controllers
             }
             return new JsonResult(Ok("User deleted"));
         }
+
         [HttpPut]
         [Route("UpdateSmth")]
         //app.MapPut("/api/users", (Person userData) =>
-       public JsonResult Update(User user)
+        public JsonResult Update(User user)
         {
             try
             {
