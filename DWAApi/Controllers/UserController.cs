@@ -71,7 +71,7 @@ namespace DWAApi.Controllers
             }
             catch (Exception ex)
             {
-                Console.Write(ex.ToString());
+                Console.WriteLine(ex.ToString());
             }
             return new JsonResult(Unauthorized(result));
         }
@@ -92,9 +92,40 @@ namespace DWAApi.Controllers
             }
             catch (Exception ex) 
             {
-               Console.Write(ex.ToString());
+               Console.WriteLine(ex.ToString());
             }
             return new JsonResult(Ok("User deleted"));
         }
+        [HttpPut]
+        [Route("UpdateSmth")]
+        //app.MapPut("/api/users", (Person userData) =>
+       public JsonResult Update(User user)
+        {
+            try
+            {
+                // получаем пользователя по id
+                User? us = _userContext.Users.FirstOrDefault(u => u.Id == user.Id);
+                // если не найден, отправляем статусный код и сообщение об ошибке
+                if (us == null)
+                {
+                    return new JsonResult(BadRequest("User with this id doesn't exist"));
+                }
+                // если пользователь найден, изменяем его данные и отправляем обратно клиенту
+
+                us.Login = user.Login;
+                us.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                _userContext.SaveChanges();
+                return new JsonResult(us);
+
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return new JsonResult(BadRequest("You got exception: "+ex.GetType()));
+            }
+            
+
+        }
+        
     }
 }

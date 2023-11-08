@@ -69,9 +69,6 @@ namespace WBAAPI
                 UserContext _userContext = httpContext.RequestServices.GetRequiredService<UserContext>();
                 
                 User? user = _userContext.Users.FirstOrDefault(p => (p.Login == loginData.Login));
-                    //p.Password == BCrypt.Net.BCrypt.HashPassword(loginData.Password));
-                 //BCrypt.Net.BCrypt.Verify(LoginData.Password, p.Password);
-                // если пользователь не найден, отправляем статусный код 401
                 if (user is null) return Results.Unauthorized();
                 if (!BCrypt.Net.BCrypt.Verify(loginData.Password, user.Password)) return Results.Unauthorized();
                 var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Login) };
