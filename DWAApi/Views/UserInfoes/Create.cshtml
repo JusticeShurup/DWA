@@ -1,0 +1,72 @@
+﻿@model DWAApi.Models.UserInfo
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>UserInfo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Age" class="control-label"></label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SkinColour" class="control-label"></label>
+                <input asp-for="SkinColour" class="form-control" />
+                <span asp-validation-for="SkinColour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EUSizeS" class="control-label"></label>
+                <input asp-for="EUSizeS" class="form-control" />
+                <span asp-validation-for="EUSizeS" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EUSizeT" class="control-label"></label>
+                <input asp-for="EUSizeT" class="form-control" />
+                <span asp-validation-for="EUSizeT" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EUSizeL" class="control-label"></label>
+                <input asp-for="EUSizeL" class="form-control" />
+                <span asp-validation-for="EUSizeL" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CircleHip" class="control-label"></label>
+                <input asp-for="CircleHip" class="form-control" />
+                <span asp-validation-for="CircleHip" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CircleChest" class="control-label"></label>
+                <input asp-for="CircleChest" class="form-control" />
+                <span asp-validation-for="CircleChest" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CircleCalf" class="control-label"></label>
+                <input asp-for="CircleCalf" class="form-control" />
+                <span asp-validation-for="CircleCalf" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -14,7 +14,7 @@ namespace DWAApi.Data
             base(options)
         {
             Database.EnsureCreated();
-
+            
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

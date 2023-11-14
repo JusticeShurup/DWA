@@ -13,7 +13,10 @@ namespace DWAApi.Models
 
         [Required] 
         public required string Password { get; set; }
-
+        [JsonIgnore]
+        public string? RefreshToken { get; set; }
+        [JsonIgnore]
+        public DateTime RefreshTokenExpiryTime { get; set; }
         [JsonIgnore]
         public UserInfo? UserInfo { get; set; }
 

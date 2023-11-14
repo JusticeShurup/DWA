@@ -1,8 +1,10 @@
 
 using DWAApi.Data;
 using DWAApi.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -19,10 +21,12 @@ namespace WBAAPI
         }
         public static void Main(string[] args)
         {
-            
-       
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+//            AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions");
+
 
             var builder = WebApplication.CreateBuilder(args);
+            ConfigurationManager configuration = builder.Configuration;
 
             // Add services to the container.
 
@@ -33,20 +37,28 @@ namespace WBAAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddAuthorization();
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidIssuer = AuthOptions.ISSUER,
-                        ValidateAudience = true,
-                        ValidAudience = AuthOptions.AUDIENCE,
-                        ValidateLifetime = true,
-                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                        ValidateIssuerSigningKey = true,
-                    };
-                });
+                    ValidateIssuer = true,
+                    ValidIssuer = configuration["JWT:ValidIssuer"],
+                    ValidateAudience = true,
+                    ValidAudience = configuration["JWT:ValidAudience"],
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"])),
+                };
+            });
 
             var app = builder.Build();
 
@@ -59,67 +71,26 @@ namespace WBAAPI
 
             app.UseHttpsRedirection();
 
-            //app.UseDefaultFiles();
-            //app.UseStaticFiles();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
-            app.MapPost("/login", (User loginData, HttpContext httpContext) =>
-            {
-                // находим пользователя 
-                UserContext _userContext = httpContext.RequestServices.GetRequiredService<UserContext>();
-                
-                User? user = _userContext.Users.FirstOrDefault(p => (p.Login == loginData.Login));
-                if (user is null) return Results.Unauthorized();
-                if (!BCrypt.Net.BCrypt.Verify(loginData.Password, user.Password)) return Results.Unauthorized();
-                var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Login) };
-                // создаем JWT-токен
-                var jwt = new JwtSecurityToken(
-                        issuer: AuthOptions.ISSUER,
-                        audience: AuthOptions.AUDIENCE,
-                        claims: claims,
-                        expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)),
-                        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-                var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-                // формируем ответ
-                var response = new
-                {
-                    access_token = encodedJwt,
-                    username = user.Login
-                };
-
-                return Results.Json(response);
-            });
             app.UseAuthentication();
 
             app.UseAuthorization();
 
-            //app.Map("/hello", [Authorize] () => "Hello World!");
-            //app.Map("/", () => "Home Page");
-            /* app.Map("/login/{username}", (string username) =>
-            {
-                var claims = new List<Claim> { new Claim(ClaimTypes.Name, username) };
-                var jwt = new JwtSecurityToken(
-                        issuer: AuthOptions.ISSUER,
-                        audience: AuthOptions.AUDIENCE,
-                        claims: claims,
-                        expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)), // время действия 2 минуты
-                        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-
-                return new JwtSecurityTokenHandler().WriteToken(jwt);
-            });*/
             app.MapControllers();
 
             app.Run();
         }
 
-        public class AuthOptions
+      /*  public class AuthOptions
         {
-            public const string ISSUER = "DWAServer";
-            public const string AUDIENCE = "Client";
+            public const string ISSUER = ;
+            public const string AUDIENCE = "";
             const string KEY = "erJ19Ekfqj25rRfm56fjwnTHqfjnvLfk2rj6";
             public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
-        }
+        }*/
          
     }
 }

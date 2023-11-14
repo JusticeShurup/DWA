@@ -1,0 +1,83 @@
+﻿@model IEnumerable<DWAApi.Models.UserInfo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SkinColour)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EUSizeS)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EUSizeT)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EUSizeL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CircleHip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CircleChest)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CircleCalf)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SkinColour)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EUSizeS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EUSizeT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EUSizeL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CircleHip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CircleChest)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CircleCalf)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Login)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

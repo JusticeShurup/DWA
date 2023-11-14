@@ -1,0 +1,72 @@
+﻿@model DWAApi.Models.UserInfo
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>UserInfo</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SkinColour)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SkinColour)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EUSizeS)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EUSizeS)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EUSizeT)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EUSizeT)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EUSizeL)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EUSizeL)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CircleHip)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CircleHip)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CircleChest)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CircleChest)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CircleCalf)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CircleCalf)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.User.Login)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
