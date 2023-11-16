@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DWAApi.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20231114143403_bro")]
-    partial class bro
+    [Migration("20231116154038_2")]
+    partial class _2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,9 +43,15 @@ namespace DWAApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("RefreshTokenExpiryTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("UserInfoId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserInfoId")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -81,31 +87,23 @@ namespace DWAApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("UserInfos");
                 });
 
-            modelBuilder.Entity("DWAApi.Models.UserInfo", b =>
-                {
-                    b.HasOne("DWAApi.Models.User", "User")
-                        .WithOne("UserInfo")
-                        .HasForeignKey("DWAApi.Models.UserInfo", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("DWAApi.Models.User", b =>
                 {
+                    b.HasOne("DWAApi.Models.UserInfo", "UserInfo")
+                        .WithOne("User")
+                        .HasForeignKey("DWAApi.Models.User", "UserInfoId");
+
                     b.Navigation("UserInfo");
+                });
+
+            modelBuilder.Entity("DWAApi.Models.UserInfo", b =>
+                {
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

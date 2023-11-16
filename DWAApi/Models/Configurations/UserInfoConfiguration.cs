@@ -25,12 +25,13 @@ namespace DWAApi.Models.Configurations
                 .IsRequired();
             builder.Property(p => p.CircleCalf)
                 .IsRequired();
-            builder.Property(p => p.UserId)
-                .IsRequired();
-            builder.HasOne(e => e.User)
-                .WithOne(e => e.UserInfo)
-                .HasForeignKey<UserInfo>(e => e.UserId)
-                .IsRequired();
+
+            //builder.HasOne(e => e.User)
+              //  .WithOne(e => e.UserInfo)
+                //.HasForeignKey<UserInfo>(e => e.Id)
+                //.IsRequired();
+       
+                
         }
     }
 }

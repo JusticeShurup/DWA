@@ -8,8 +8,8 @@ namespace DWAApi.Models
     {
 
         public int Age { get; set; } // Возраст
-        
-        public string SkinColour { get; set;} // Цвет кожи 
+
+        public string SkinColour { get; set; }// Цвет кожи 
         
         public int EUSizeS { get; set; } // Размер EU обуви
         
@@ -22,9 +22,7 @@ namespace DWAApi.Models
         public int CircleChest { get; set; } // Обхват груди
         
         public int CircleCalf { get; set; } // Обхват голени
-        [ForeignKey("User")]
-        public Guid UserId { get; set; }
         [JsonIgnore]
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 }

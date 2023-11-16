@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-using DWAApi.Models;
 
 namespace DWAApi.Models
 {
@@ -10,9 +8,10 @@ namespace DWAApi.Models
     {
         [Required] 
         public required string Login { get; set; }
-
         [Required] 
         public required string Password { get; set; }
+        [ForeignKey("UserInfoId")]
+        public Guid? UserInfoId { get; set; }
         [JsonIgnore]
         public string? RefreshToken { get; set; }
         [JsonIgnore]

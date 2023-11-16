@@ -46,6 +46,43 @@ namespace DWAApi.Controllers
             return token;
         }
 
+        [HttpGet]
+        [Route("getId/{id}")]
+        public JsonResult GetById(Guid id)
+        {
+            try
+            {
+
+                User? user = _userContext.Users.FirstOrDefault(p => p.Id == id);
+                if (user == null)
+                {
+                    return new JsonResult(BadRequest("User doesn't exist"));
+                }
+                return new JsonResult(Ok(true));
+            }
+            catch (Exception ex) 
+            {
+                Console.Write(ex.ToString());   
+                return new JsonResult(BadRequest());    
+            }
+
+        }
+        [HttpGet]
+        [Route("getAll")]
+        public JsonResult GetAll()
+        {
+            try
+            {
+                List<User> UList = _userContext.Users.ToList();
+                return new JsonResult(UList);
+
+            }
+            catch(Exception ex)
+            {
+                Console.Write(ex.ToString);
+                return new JsonResult(BadRequest());
+            }
+        }
         [HttpPost]
         [Route("registry")]
         public JsonResult RegistryUser([FromBody] User user)
@@ -54,6 +91,7 @@ namespace DWAApi.Controllers
             {
                 User? us = _userContext.Users.FirstOrDefault(p => p.Login == user.Login);
                 //Console.WriteLine("\nus.Login=" + us.Login+"\n");
+                //UserInfo? usIn = _userContext.UserInfos.FirstOrDefault(p => p.Id.Equals(user.UserInfoId));
                 if (us != null)
                 {
                     return new JsonResult(BadRequest("This nickname already exists. Please choose another"));
@@ -74,29 +112,9 @@ namespace DWAApi.Controllers
             return new JsonResult(Ok("User created"));
             //состояние, токен(access and refresh)
         }
-        [HttpGet]
-        [Route("getId/{id}")]
-        public JsonResult GetById(Guid id)
-       {
-            try
-            {
 
-                User? user = _userContext.Users.FirstOrDefault(p => p.Id == id);
-                if (user == null)
-                {
-                    return new JsonResult(BadRequest("User doesn't exist"));
-                }
-                return new JsonResult(Ok(true));
-            }
-            catch (Exception ex) 
-            {
-                Console.Write(ex.ToString());   
-                return new JsonResult(BadRequest());    
-            }
 
-        }
-
-        [HttpGet]
+        [HttpPost]
         [Route("login")]
         public JsonResult TryLogin(string login, string password)
         {
@@ -105,18 +123,12 @@ namespace DWAApi.Controllers
                 User? user = _userContext.Users.FirstOrDefault(p => (p.Login == login));
                 if (user is null) return new JsonResult(Results.Unauthorized());
                 if (!BCrypt.Net.BCrypt.Verify(password, user.Password)) return new JsonResult(Results.Unauthorized());
-                var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Login) };
-                var jwt = CreateToken(claims);
-
-                // создаем JWT-токен
-                /*
-                var jwt = new JwtSecurityToken(
-                        issuer: AuthOptions.ISSUER,
-                        audience: AuthOptions.AUDIENCE,
-                        claims: claims,
-                        expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(15)),
-                        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
-                        );*/
+                List<Claim> claims = new List<Claim> 
+                {
+                    new Claim(ClaimTypes.Name, user.Login),
+                    new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())                             
+                };
+                JwtSecurityToken jwt = CreateToken(claims);
                 TokenModel tokenModel = new TokenModel()
                 {
                     AccessToken = new JwtSecurityTokenHandler().WriteToken(jwt),
@@ -128,7 +140,7 @@ namespace DWAApi.Controllers
                 user.RefreshTokenExpiryTime = DateTime.Now.AddDays(refreshTokenValidityInDays);
                 _userContext.SaveChanges();
 
-                return  new JsonResult(tokenModel); //+refreshToken
+                return  new JsonResult(tokenModel); //accessToken+refreshToken+expirationDate
             }
             catch (Exception ex)
             {

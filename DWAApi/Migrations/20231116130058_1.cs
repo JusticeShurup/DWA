@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DWAApi.Migrations
 {
     /// <inheritdoc />
-    public partial class bro : Migration
+    public partial class _1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,8 +18,9 @@ namespace DWAApi.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Login = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
+                    UserInfoId = table.Column<Guid>(type: "uuid", nullable: true),
                     RefreshToken = table.Column<string>(type: "text", nullable: true),
-                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,25 +39,18 @@ namespace DWAApi.Migrations
                     EUSizeL = table.Column<int>(type: "integer", nullable: false),
                     CircleHip = table.Column<int>(type: "integer", nullable: false),
                     CircleChest = table.Column<int>(type: "integer", nullable: false),
-                    CircleCalf = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                    CircleCalf = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserInfos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserInfos_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_UserInfos_Users_Id",
+                        column: x => x.Id,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserInfos_UserId",
-                table: "UserInfos",
-                column: "UserId",
-                unique: true);
         }
 
         /// <inheritdoc />

@@ -3,6 +3,7 @@ using System;
 using DWAApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DWAApi.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20231116130058_1")]
+    partial class _1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,9 +49,6 @@ namespace DWAApi.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserInfoId")
-                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -89,18 +89,20 @@ namespace DWAApi.Migrations
                     b.ToTable("UserInfos");
                 });
 
-            modelBuilder.Entity("DWAApi.Models.User", b =>
-                {
-                    b.HasOne("DWAApi.Models.UserInfo", "UserInfo")
-                        .WithOne("User")
-                        .HasForeignKey("DWAApi.Models.User", "UserInfoId");
-
-                    b.Navigation("UserInfo");
-                });
-
             modelBuilder.Entity("DWAApi.Models.UserInfo", b =>
                 {
+                    b.HasOne("DWAApi.Models.User", "User")
+                        .WithOne("UserInfo")
+                        .HasForeignKey("DWAApi.Models.UserInfo", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DWAApi.Models.User", b =>
+                {
+                    b.Navigation("UserInfo");
                 });
 #pragma warning restore 612, 618
         }
