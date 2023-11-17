@@ -10,7 +10,7 @@ namespace DWAApi.Models
         public required string Login { get; set; }
         [Required] 
         public required string Password { get; set; }
-        [ForeignKey("UserInfoId")]
+        
         public Guid? UserInfoId { get; set; }
         [JsonIgnore]
         public string? RefreshToken { get; set; }

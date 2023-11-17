@@ -20,9 +20,9 @@ namespace DWAApi.Models.Configurations
             builder.Property(p => p.UserInfoId)
                 .ValueGeneratedNever();
 
-           // builder.HasOne(e => e.UserInfo)
-           //     .WithOne(e => e.User)
-           //     .HasForeignKey<User>(p => p.UserInfoId);
+            builder.HasOne(e => e.UserInfo)
+                   .WithOne(e => e.User)
+                   .HasForeignKey<User>(p => p.UserInfoId);
 
         }
     }
