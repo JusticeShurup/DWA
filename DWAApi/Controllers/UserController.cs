@@ -1,13 +1,11 @@
 ﻿using DWAApi.Data;
 using DWAApi.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
-using static WBAAPI.Program;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text.Json;
 using System.Text;
 
 namespace DWAApi.Controllers
@@ -45,6 +43,26 @@ namespace DWAApi.Controllers
                 );
             return token;
         }
+        private ClaimsPrincipal? GetPrincipalFromExpiredToken(string? token)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"])),
+                ValidateLifetime = false
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+            if (securityToken is not JwtSecurityToken jwtSecurityToken || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                throw new SecurityTokenException("Invalid token");
+
+            return principal;
+
+        }
+
 
         [HttpGet]
         [Route("getId/{id}")]
@@ -82,6 +100,75 @@ namespace DWAApi.Controllers
                 Console.Write(ex.ToString);
                 return new JsonResult(BadRequest());
             }
+        }
+        [HttpPost]
+        [Route("refresh-token")]
+        public JsonResult RefreshToken(TokenModel tokenModel)
+        {
+            if (tokenModel is null)
+            {
+                return new JsonResult(BadRequest("Invalid client request"));
+            }
+
+            string? accessToken = tokenModel.AccessToken;
+            string? refreshToken = tokenModel.RefreshToken;
+
+            var principal = GetPrincipalFromExpiredToken(accessToken);
+            if (principal == null)
+            {
+                return new JsonResult (BadRequest("Invalid access token or refresh token"));
+            }
+
+
+            string username = principal.Identity.Name;
+
+            var user = _userContext.Users.FirstOrDefault(p => p.Login ==  username);
+
+            if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+            {
+                return new JsonResult(BadRequest("Invalid access token or refresh token"));
+            }
+
+            var newAccessToken = CreateToken(principal.Claims.ToList());
+            var newRefreshToken = GenerateRefreshToken();
+
+            user.RefreshToken = newRefreshToken;
+            _userContext.SaveChanges();
+
+            return new JsonResult(new
+            {
+                accessToken = new JwtSecurityTokenHandler().WriteToken(newAccessToken),
+                refreshToken = newRefreshToken
+            });
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("revoke/{username}")]
+        public JsonResult Revoke(string username)
+        {
+            var user = _userContext.Users.FirstOrDefault(p => p.Login == username);
+            if (user == null) return new JsonResult(BadRequest("Invalid user name"));
+
+            user.RefreshToken = null;
+            _userContext.SaveChanges();
+
+            return new JsonResult(NoContent());
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("revoke-all")]
+        public JsonResult RevokeAll()
+        {
+            var users = _userContext.Users.ToList();
+            foreach (var user in users)
+            {
+                user.RefreshToken = null;
+            }
+            _userContext.SaveChanges();
+
+            return new JsonResult(NoContent());
         }
         [HttpPost]
         [Route("registry")]

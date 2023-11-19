@@ -72,14 +72,17 @@ namespace DWAApi.Controllers
                 if (userInfo == null) 
                 {
                     Console.WriteLine(userInBody.Id);
-                    userInBody.Id = Guid.NewGuid();
                     _userContext.UserInfos.Add(userInBody);
-                    Console.WriteLine(userInBody.Id);
+                    if (userInBody == null)
+                    {
+                        userInBody.Id = Guid.NewGuid();
+                    }
                     _userContext.SaveChanges();
-                    //return new JsonResult(userInfo);
+                    return new JsonResult(userInBody);
                 }
+               
 
-                return new JsonResult(NoContent());
+                return new JsonResult("userInfo already exists") ;
             }
             catch (Exception e)
             {
