@@ -42,22 +42,6 @@ namespace DWAApi.Controllers
         {
             try
             {
-        /*        User? user = _userContext.Users.FirstOrDefault(p => userInBody.Id == p.UserInfoId);
-
-                UserInfo? usIn = _userContext.UserInfos.FirstOrDefault(p => userInBody == p);
-                Console.WriteLine(usIn);
-                if(usIn != null)
-                {
-                    _userContext.UserInfos.Add(userInBody);
-                    _userContext.SaveChanges();
-                }
-                else
-                {
-                    userInBody.Id = usIn.Id;
-                }
-                userInBody.User = user;
-                _userContext.SaveChanges();
-                return new JsonResult("UserInfo created\n"+userInBody);*/
                UserInfo? userInfo = _userContext.UserInfos.FirstOrDefault(p =>
                     p.Age == userInBody.Age &&
                     p.SkinColour == userInBody.SkinColour &&
@@ -73,7 +57,7 @@ namespace DWAApi.Controllers
                 {
                     Console.WriteLine(userInBody.Id);
                     _userContext.UserInfos.Add(userInBody);
-                    if (userInBody == null)
+                    if (userInBody.Id == null)
                     {
                         userInBody.Id = Guid.NewGuid();
                     }
