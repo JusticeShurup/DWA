@@ -2,10 +2,14 @@ import React from 'react';
 import styles from "../../Pages/Main/main.module.scss";
 import test from "../../Img/test.png";
 import star from "../../Img/star.svg"
-const Product = () => {
+import {Link} from "react-router-dom";
+const Product = ({img,id}) => {
     return (
         <li className={styles.product}>
-            <img src={test} alt=""/>
+            <Link to={`/item/${id}`}>
+                <img src={img} alt="" className={styles.product_img}/>
+            </Link>
+
             <div className={styles.product_buttons}>
                 <button className={styles.product_price}>
                     1500 Р

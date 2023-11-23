@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from "../../Pages/Main/main.module.scss";
 
-const SearchItem = (props) => {
+const SearchItem = ({active,item}) => {
     return (
-        <li className={styles.search_item}>{props.item}   </li>
+        <li className={`${styles.search_item} ${active?styles.active:""}` }>{item} </li>
     );
 };
 

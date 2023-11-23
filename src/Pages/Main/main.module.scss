@@ -1,7 +1,7 @@
 .items{
   padding: 53px 0 0 calc(156px + 93px);
   display: flex;
-  justify-content: space-between;
+  gap: 115px;
 }
 .search{
   list-style-type: none;
@@ -21,7 +21,7 @@
     transition: 0.3s all;
     cursor: pointer;
     &:hover{
-      background: #4E30DD;
+      background: #7158FF;
       color: white;
     }
   }
@@ -31,12 +31,22 @@
     height: 48px;
     background: white;
     border: 1px solid #4E30DD;
-    border-radius: 10px;
+    border-radius: 15px;
     transition: 0.3s all;
     cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     &:hover{
       background: #4E30DD;
       color: white;
+    }
+    &_plus{
+      height: 47px;
+      position: absolute;
+      right: 0;
+      top:0
     }
   }
 }
@@ -91,6 +101,10 @@
   justify-content: center;
   align-items: center;
   text-decoration: none;
+  &_img{
+    width: 120px;
+    height: 120px;
+  }
   &_buttons{
     display: flex;
     align-items: center;
@@ -134,12 +148,13 @@
   }
 }
 .character{
-  width: 100%;
+  width: 850px;
   display: flex;
   align-items: center;
   justify-content: center;
-  &_img{
-    height: calc(100vh - 100px);
-  }
 }
 
+.active{
+  background: #4E30DD;
+  color: #FFFFFF;
+}

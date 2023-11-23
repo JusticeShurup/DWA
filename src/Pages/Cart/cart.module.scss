@@ -1,0 +1,118 @@
+.cart{
+    margin-left: 210px;
+    padding-top: 40px;
+    &_title{
+      color: #000;
+      font-size: 40px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+     }
+  position: relative;
+}
+.item{
+  height: 300px;
+  width: 40%;
+  border-radius: 20px;
+  border: 1px solid var(--New-purple, #4E30DD);
+  display: flex;
+  align-items: center;
+  padding: 30px;
+  gap: 20px;
+  position: relative;
+
+  background: #E6E6E6;
+  &_wrapper{
+    display: flex;
+    align-items: flex-start;
+    justify-content: left;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 20px;
+    overflow-y: scroll;
+
+    max-height: 630px;
+  }
+  &_img{
+    width: 190px;
+    height: 190px;
+  }
+  &_description{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+    gap: 20px;
+    color: #000;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  &_name{
+    color: #000;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  &_color{
+    &_wrapper{
+      display:flex;
+      align-items: center;
+    }
+  }
+  &_button{
+    width: 162px;
+    height: 45px;
+    background: none;
+    border: 2px solid #4E30DD;
+    border-radius: 20px ;
+    margin-top: 0px;
+    display: flex;
+    font-size: 30px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px ;
+    overflow: hidden;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    cursor: pointer;
+  }
+  &_delete{
+    cursor: pointer;
+    position: absolute;
+    right: 35px;
+    bottom: 35px;
+  }
+}
+.price{
+  color: #000;
+  margin-top: 30px;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.button{
+  width: 555px;
+  height: 70px;
+  position: fixed;
+  bottom: 30px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  margin-top: 20px;
+  background: var(--New-purple, #4E30DD);
+  color: #FFF;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+}

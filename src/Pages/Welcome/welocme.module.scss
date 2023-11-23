@@ -1,0 +1,37 @@
+.welcome{
+  height: 100vh;
+  width: 100vw;
+  z-index: 10;
+  background:url("../../../public/background.png") center center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 30px;
+    &_icon{
+      width: 180px;
+      height: 180px;
+    }
+    &_title{
+      color: #FFF;
+      font-size: 64px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+    }
+    &_subtitle{
+      color: #FFF;
+      font-size: 40px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+    }
+    &_loading{
+      margin-top: 70px;
+    }
+  }
+}

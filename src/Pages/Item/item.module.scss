@@ -51,7 +51,7 @@
   }
   &_info{
     color: #1A1A1A;
-    font-size: 18px;
+    font-size: 24px;
     text-wrap: inherit;
     font-style: normal;
     font-weight: 400;
@@ -85,6 +85,11 @@
   width: 300px;
   gap: 12px;
   margin-top: 13px;
+}
+.color{
+  height: 50px;
+  width: 60px;
+  border-radius: 10px;
 }
 .sizes{
   &_title{
@@ -164,4 +169,29 @@
     line-height: normal;
   }
 
+}
+.character_item{
+  height: 450px;
+  width: 450px;
+  background-color: white;
+  left: 400px;
+}
+.character_model{
+  height: 600px;
+  width: 600px;
+  position: absolute;
+  top: 173px;
+  background-color: white;
+  left: 400px;
+}
+.canvas{
+  position: absolute;
+  left: 350px;
+  top: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  height: 800px;
+  width: 700px;
 }
